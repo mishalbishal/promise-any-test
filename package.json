@@ -1,0 +1,15 @@
+{
+  "name": "promise_any_test",
+  "version": "1.0.0",
+  "description": "Testing Promise.any implementation",
+  "main": "server.js",
+  "scripts": {
+    "test": "node promise_test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1"
+  }
+}
