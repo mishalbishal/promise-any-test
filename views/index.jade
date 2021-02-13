@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  h1 Playing with promises
+
+  h2 Promise.any without cancellable requests
+  pre(id="with-any-result-code")
+  button(id="with-any-result-button") Click to run withAnyResult
+  p(id="with-any-result-results") Results
+  script.
+    const urls = [1, 5, 5, 5, 5, 5, 5].map((num) => `/sleep/${num}`);
+    {
+    let resultAppender = (result) => {
+      document.getElementById("with-any-result-results").textContent += "\n" + result.data;
+    };
+    function withAnyResult(urls, callback) {
+        const requests = urls.map(url => axios.get(url))
+        Promise.race(requests).then(function (result) {
+          callback(result);
+        });
+    }
+    document.getElementById("with-any-result-button").onclick = (e) => {
+      withAnyResult(urls, resultAppender);
+    };
+    document.getElementById("with-any-result-code").textContent = withAnyResult.toString();
+    }
+
+  h2 Promise.any cancellable requests
+  pre(id="with-any-result-cancel-code")
+  button(id="with-any-result-cancel-button") Click to run withAnyResultCancellable
+  p(id="with-any-result-cancel-results") Results
+  script.
+    // Closure so that resultAppender doesn't get overridden between additional examples.
+    {
+    let resultAppender = (result) => {
+      document.getElementById("with-any-result-cancel-results").textContent += "\n" + result.data;
+    };
+
+    async function withAnyResultCancellable(urls, callback) {
+        const source = axios.CancelToken.source();
+        const requests = urls.map(url => axios.get(url, { cancelToken: source.token }));
+        Promise.race(requests).then(function (result) {
+          source.cancel("Done");
+          callback(result);
+        });
+    }
+    document.getElementById("with-any-result-cancel-button").onclick = (e) => {
+      withAnyResultCancellable(urls, resultAppender);
+    };
+    document.getElementById("with-any-result-cancel-code").textContent = withAnyResultCancellable.toString();
+    }
+  script(src="https://unpkg.com/axios/dist/axios.min.js")
+  script(src="/javascripts/scripts.js")
