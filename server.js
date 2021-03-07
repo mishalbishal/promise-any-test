@@ -3,9 +3,13 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
+app.get('/logbreak', (req, res) => {
     console.log("=".repeat(80));
     res.send('Hello World!')
+})
+
+app.get('/', (req, res) => {
+    res.render('index', { title: 'Hey', message: 'Hello there!' })
 })
 
 // From: https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep

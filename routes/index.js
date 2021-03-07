@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index');
+  res.render('index', { title: 'Playing with Promises' });
 });
 
 // From: https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep

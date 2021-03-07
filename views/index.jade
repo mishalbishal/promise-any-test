@@ -36,7 +36,7 @@ block content
       document.getElementById("with-any-result-cancel-results").textContent += "\n" + result.data;
     };
 
-    async function withAnyResultCancellable(urls, callback) {
+    function withAnyResultCancellable(urls, callback) {
         const source = axios.CancelToken.source();
         const requests = urls.map(url => axios.get(url, { cancelToken: source.token }));
         Promise.race(requests).then(function (result) {
